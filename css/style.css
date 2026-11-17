@@ -218,6 +218,7 @@ img { display: block; max-width: 100%; }
 .posters:hover .poster:not(:hover) { opacity: 0.38; filter: grayscale(1); }
 .poster__art { position: relative; display: block; aspect-ratio: 2 / 3; overflow: hidden; border-radius: 6px; background: var(--bg-2); }
 .poster__art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.08); transition: opacity 0.9s ease, transform 0.9s var(--ease); }
+.poster[data-img*="mind-your-business"] .poster__art img { object-position: 100% 50%; }
 .poster.is-loaded .poster__art img { opacity: 1; transform: none; }
 .poster:hover .poster__art img { transform: scale(1.06); }
 .poster__slate {
