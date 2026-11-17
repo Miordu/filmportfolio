@@ -218,9 +218,8 @@
   }
 
   /* ---------- Contact form ----------
-     With data-endpoint set on the form (a Formspree address), the message is
-     posted there and the visitor stays on the page. Without it, the form
-     opens the visitor's own email app with the message filled in. */
+     Posts to the address in the form's data-endpoint; the visitor stays on
+     the page and sees a confirmation. */
   var talk = $('#talk');
   if (talk) {
     var status = $('.talk__status', talk);
@@ -250,14 +249,7 @@
 
       var data = { name: f.name.value.trim(), email: f.email.value.trim(), purpose: f.purpose.value.trim() };
       var endpoint = talk.getAttribute('data-endpoint');
-      if (!endpoint) {
-        var to = ['qysl10', 'gmail.com'].join('@');
-        window.location.href = 'mailto:' + to +
-          '?subject=' + encodeURIComponent('Let\u2019s talk \u2014 ' + data.name) +
-          '&body=' + encodeURIComponent(data.purpose + '\n\n' + data.name + '\n' + data.email);
-        say('Your email app should open with the message ready to send.');
-        return;
-      }
+      if (!endpoint) { say('This form is not connected yet.', true); return; }
       sendBtn.disabled = true;
       say('Sending…');
       fetch(endpoint, {
