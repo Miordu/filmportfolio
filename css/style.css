@@ -43,7 +43,7 @@ img { display: block; max-width: 100%; }
 .skip:focus { left: 8px; }
 
 /* Display type helper */
-.hero__name, .bigtitle, .chapter__h, .chapter__num, .marquee, .credits-head__h, .numbers b, .intro__stats b, .build__name, .contact__mail, .shot__fallback, .poster__slate strong {
+.hero__name, .bigtitle, .chapter__h, .chapter__num, .marquee, .credits-head__h, .numbers b, .intro__stats b, .build__name, .shot__fallback, .poster__slate strong {
   font-stretch: 62%; font-weight: 900; text-transform: uppercase; letter-spacing: -0.01em; line-height: 0.86;
 }
 .o { color: transparent; -webkit-text-stroke: 1.5px var(--fg); }
@@ -275,8 +275,28 @@ img { display: block; max-width: 100%; }
 .contact .marquee__track { animation-duration: 18s; }
 .contact__inner { padding: clamp(28px, 4vw, 60px) var(--pad) 0; display: grid; gap: 22px; }
 .contact__line { font-size: clamp(20px, 2.4vw, 34px); font-weight: 600; max-width: 26em; line-height: 1.2; }
-.contact__mail { font-size: clamp(34px, 8.6vw, 150px); justify-self: start; color: var(--accent); background: linear-gradient(currentColor, currentColor) 0 100% / 0 0.06em no-repeat; transition: background-size 0.6s var(--ease), color 0.6s; padding-bottom: 0.08em; overflow-wrap: anywhere; }
-.contact__mail:hover { background-size: 100% 0.06em; }
+.talk { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(18px, 3vw, 40px) clamp(20px, 3.4vw, 56px); margin-top: clamp(8px, 2vw, 24px); max-width: 1200px; }
+.field { display: grid; gap: 8px; }
+.field--wide { grid-column: 1 / -1; }
+.field--trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.field > span { font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); transition: color 0.6s; }
+.field input, .field textarea {
+  width: 100%; background: transparent; color: var(--fg); border: 0; border-bottom: 2px solid var(--line); border-radius: 0;
+  font: 800 clamp(24px, 3.6vw, 56px)/1.1 var(--font); font-stretch: 75%; letter-spacing: -0.01em;
+  padding: 0.18em 0 0.26em; resize: vertical; transition: border-color 0.3s;
+}
+.field textarea { min-height: 3.6em; }
+.field input::placeholder, .field textarea::placeholder { color: var(--fg); opacity: 0.18; }
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); }
+.field.is-bad input, .field.is-bad textarea { border-color: #ff5a5a; }
+.talk__foot { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; }
+.talk__send { cursor: pointer; border: 0; display: inline-flex; align-items: center; gap: 14px; padding: 18px 34px; border-radius: 999px; background: var(--accent); color: #0a0a0a; font-size: 16px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; transition: transform 0.4s var(--ease), background 0.6s, opacity 0.3s; }
+.talk__send:hover { transform: scale(1.05) rotate(-1.5deg); }
+.talk__send i { font-style: normal; transition: transform 0.3s; }
+.talk__send:hover i { transform: translateX(6px); }
+.talk__send[disabled] { opacity: 0.5; cursor: progress; }
+.talk__status { font-weight: 600; min-height: 1.5em; }
+.talk__status.is-bad { color: #ff8a8a; }
 .contact__links { display: flex; flex-wrap: wrap; gap: 10px; }
 .contact__links a { display: inline-block; padding: 12px 22px; border: 1.5px solid var(--line); border-radius: 999px; font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; transition: background 0.3s, color 0.3s, border-color 0.3s; }
 .contact__links a:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
@@ -306,6 +326,7 @@ img { display: block; max-width: 100%; }
   .numbers li:nth-child(odd) { border-left: 0; padding-left: 0; }
   .numbers li:nth-child(n+3) { border-top: 1px solid var(--line); }
   .school__list { grid-template-columns: 1fr; }
+  .talk { grid-template-columns: 1fr; }
   .build { grid-template-columns: 1fr; }
   .hero__foot { flex-direction: column; align-items: flex-start; }
   .hero__scroll { display: none; }

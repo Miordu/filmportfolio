@@ -305,7 +305,7 @@
           <span class="poster__art"><span class="poster__slate"><em>VH1</em><strong>Love &amp; Hip Hop</strong></span></span>
           <span class="poster__meta"><b>Love &amp; Hip Hop</b><i>Talent Coordinator · Season 8</i><u>VH1 · 2017</u></span>
         </a>
-        <a class="poster" data-kind="tv" data-wiki="Mahisha Dellinger" href="https://www.imdb.com/title/tt8697230/" target="_blank" rel="noopener" data-cursor="IMDb">
+        <a class="poster" data-kind="tv" data-img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyUXE7VlvXfYHmXEEbJWyCWMKJYlOUM7bbIitLypqEhiqtg3hw" href="https://www.imdb.com/title/tt8697230/" target="_blank" rel="noopener" data-cursor="IMDb">
           <span class="poster__art"><span class="poster__slate"><em>OWN</em><strong>Mind Your Business</strong></span></span>
           <span class="poster__meta"><b>Mind Your Business with Mahisha</b><i>Production Coordinator</i><u>OWN · 2018</u></span>
         </a>
@@ -445,7 +445,30 @@
       </div>
       <div class="contact__inner">
         <p class="contact__line reveal">Operations and program leadership, production, partnerships, or a team that needs its tools built.</p>
-        <a class="contact__mail reveal" href="mailto:qysl10@gmail.com" data-cursor="Email">qysl10@gmail.com</a>
+        <!-- To have messages delivered without opening the visitor's email app,
+             put your Formspree address in data-endpoint (see README). -->
+        <form class="talk reveal" id="talk" data-endpoint="" novalidate>
+          <label class="field">
+            <span>Your name</span>
+            <input type="text" name="name" autocomplete="name" required placeholder="Jane Doe">
+          </label>
+          <label class="field">
+            <span>Your email</span>
+            <input type="email" name="email" autocomplete="email" required placeholder="jane@company.com">
+          </label>
+          <label class="field field--wide">
+            <span>What would you like to talk about?</span>
+            <textarea name="purpose" rows="3" required placeholder="A role, a production, a partnership, a project…"></textarea>
+          </label>
+          <label class="field field--trap" aria-hidden="true">
+            <span>Leave this empty</span>
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+          </label>
+          <div class="talk__foot">
+            <button class="talk__send" type="submit" data-cursor="Send"><span>Send it</span> <i>→</i></button>
+            <p class="talk__status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
         <ul class="contact__links reveal">
           <li><a href="https://www.linkedin.com/in/qysl/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
           <li><a href="https://www.imdb.com/name/nm7317518/" target="_blank" rel="noopener">IMDb ↗</a></li>

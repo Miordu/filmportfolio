@@ -45,6 +45,18 @@ article, so they are the first ones worth adding stills or posters for.
 Poster artwork belongs to the studios and distributors. Photographs come from
 Wikipedia and carry their own licences.
 
+## Contact form
+
+The "Let's talk" form asks for a name, an email and the purpose of the talk.
+Out of the box it opens the visitor's email app with the message filled in.
+To have messages delivered straight to your inbox instead, create a free form
+at https://formspree.io and paste its address into `data-endpoint` on the
+`<form id="talk">` tag in `index.html`:
+
+```html
+<form class="talk reveal" id="talk" data-endpoint="https://formspree.io/f/yourcode" novalidate>
+```
+
 ## Adding a credit
 
 Copy one `<a class="poster">` block in `index.html`, set `data-kind` to `film`

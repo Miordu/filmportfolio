@@ -217,6 +217,56 @@
     document.addEventListener('mouseleave', function () { cursor.classList.remove('is-on'); });
   }
 
+  /* ---------- Contact form ----------
+     With data-endpoint set on the form (a Formspree address), the message is
+     posted there and the visitor stays on the page. Without it, the form
+     opens the visitor's own email app with the message filled in. */
+  var talk = $('#talk');
+  if (talk) {
+    var status = $('.talk__status', talk);
+    var sendBtn = $('.talk__send', talk);
+    var say = function (msg, bad) {
+      status.textContent = msg;
+      status.classList.toggle('is-bad', !!bad);
+    };
+    talk.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var f = talk.elements;
+      if (f._gotcha.value) return; // filled in by a bot
+      var ok = true;
+      ['name', 'email', 'purpose'].forEach(function (n) {
+        var bad = !f[n].value.trim() || (n === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f[n].value.trim()));
+        f[n].closest('.field').classList.toggle('is-bad', bad);
+        if (bad && ok) { ok = false; f[n].focus(); }
+      });
+      if (!ok) { say('Please fill in your name, a valid email and a short note.', true); return; }
+
+      var data = { name: f.name.value.trim(), email: f.email.value.trim(), purpose: f.purpose.value.trim() };
+      var endpoint = talk.getAttribute('data-endpoint');
+      if (!endpoint) {
+        var to = ['qysl10', 'gmail.com'].join('@');
+        window.location.href = 'mailto:' + to +
+          '?subject=' + encodeURIComponent('Let\u2019s talk \u2014 ' + data.name) +
+          '&body=' + encodeURIComponent(data.purpose + '\n\n' + data.name + '\n' + data.email);
+        say('Your email app should open with the message ready to send.');
+        return;
+      }
+      sendBtn.disabled = true;
+      say('Sending…');
+      fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(data)
+      }).then(function (r) {
+        if (!r.ok) throw new Error('send failed');
+        talk.reset();
+        say('Thank you. Your message is on its way.');
+      }).catch(function () {
+        say('That didn\u2019t send. Please try again in a moment.', true);
+      }).then(function () { sendBtn.disabled = false; });
+    });
+  }
+
   /* ---------- Pictures ----------
      Artwork is looked up by Wikipedia article title (data-wiki), so nothing
      has to be downloaded by hand. To use your own picture for any slot, add
