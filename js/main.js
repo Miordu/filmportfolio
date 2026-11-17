@@ -218,10 +218,12 @@
   }
 
   /* ---------- Contact form ----------
-     Posts to the address in the form's data-endpoint; the visitor stays on
-     the page and sees a confirmation. */
+     A normal HTML form that posts to Formspree. With JavaScript running it is
+     sent in the background so the visitor stays on the page; if that is
+     refused for any reason, it falls back to an ordinary form post, which
+     lands on Formspree's own page (where it can show a CAPTCHA if needed). */
   var talk = $('#talk');
-  if (talk) {
+  if (talk && window.fetch && window.FormData) {
     var status = $('.talk__status', talk);
     var sendBtn = $('.talk__send', talk);
     var say = function (msg, bad) {
@@ -240,29 +242,29 @@
       var f = talk.elements;
       if (f._gotcha.value) return; // filled in by a bot
       var ok = true;
-      ['name', 'email', 'purpose'].forEach(function (n) {
-        var bad = !f[n].value.trim() || (n === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f[n].value.trim()));
+      ['name', 'email', 'message'].forEach(function (n) {
+        var v = f[n].value.trim();
+        var bad = !v || (n === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v));
         f[n].closest('.field').classList.toggle('is-bad', bad);
         if (bad && ok) { ok = false; f[n].focus(); }
       });
       if (!ok) { say('Please fill in your name, a valid email and a short note.', true); return; }
 
-      var data = { name: f.name.value.trim(), email: f.email.value.trim(), purpose: f.purpose.value.trim() };
-      var endpoint = talk.getAttribute('data-endpoint');
-      if (!endpoint) { say('This form is not connected yet.', true); return; }
       sendBtn.disabled = true;
       say('Sending…');
-      fetch(endpoint, {
+      fetch(talk.action, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(data)
+        headers: { Accept: 'application/json' },
+        body: new FormData(talk)
       }).then(function (r) {
-        if (!r.ok) throw new Error('send failed');
+        if (!r.ok) throw new Error('refused');
         talk.reset();
         say('Thank you. Your message is on its way.');
+        sendBtn.disabled = false;
       }).catch(function () {
-        say('That didn\u2019t send. Please try again in a moment.', true);
-      }).then(function () { sendBtn.disabled = false; });
+        // Hand over to a plain form post; this leaves the page.
+        HTMLFormElement.prototype.submit.call(talk);
+      });
     });
   }
 

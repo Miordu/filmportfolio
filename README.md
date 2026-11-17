@@ -48,8 +48,8 @@ Wikipedia and carry their own licences.
 ## Contact form
 
 The "Let's talk" form asks for a name, an email and the purpose of the talk,
-and sends it through [Formspree](https://formspree.io) to the inbox on that
-account. The form's address is the `data-endpoint` on the `<form id="talk">`
+and posts to [Formspree](https://formspree.io), which forwards it to the inbox
+on that account. The form's address is the `action` on the `<form id="talk">`
 tag in `index.html`; change it there if you ever make a new form.
 
 ## Adding a credit
