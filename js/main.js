@@ -229,6 +229,13 @@
       status.textContent = msg;
       status.classList.toggle('is-bad', !!bad);
     };
+    talk.addEventListener('input', function (e) {
+      var field = e.target.closest('.field');
+      if (field && field.classList.contains('is-bad')) {
+        field.classList.remove('is-bad');
+        if (!$('.field.is-bad', talk)) say('');
+      }
+    });
     talk.addEventListener('submit', function (e) {
       e.preventDefault();
       var f = talk.elements;
